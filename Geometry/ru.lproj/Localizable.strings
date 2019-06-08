@@ -1,0 +1,112 @@
+/* 
+  Localizable.strings
+  Dimensional
+
+  Created by Ярослав Ерохин on 25.01.15.
+  Copyright (c) 2015 Yaroslav Erohin. All rights reserved.
+*/
+
+/* Do you want to continue? Title of the Alert Dialog */
+"alert_title" = "Продолжить?";
+
+/* Font name to use for this language */
+"application_font_name" = "Bebas Neue Regular";
+"application_font_name_postscript" = "BebasNeueRegular";
+
+/* Font sizes */
+"application_font_defaultsize" = "26";
+"application_font_mediumsize" = "41";
+"application_font_largesize" = "54";
+
+/* Title of the leaderboard in the Game Over Menu */
+"levelpassed_leaderboard_title" = "Таблица лидеров";
+
+/* 'New Highscore' title in the Game Over Menu */
+"levelpassed_newhighscore_title" = "Новый рекорд";
+
+/* 'You scored' title in the Game Over Menu */
+"levelpassed_score_title" = "Вы набрали";
+
+/* Game Over Menu title */
+"levelpassed_title" = "Конец игры";
+
+/* Pause Menu title */
+"pause_title" = "Пауза";
+
+/* Remove Ads Button and Dialog Title */
+"settings_remove_ads_title" = "Реклама";
+"remove_ads_dialog_title" = "Вы уберете рекламу за %@";
+"remove_ads_done_title" = "Готово!";
+"remove_ads_done_text" = "Спасибо за поддержку проекта. Реклама теперь отключена. Наслаждайтесь!";
+
+/* About button title in the Settings Menu */
+"settings_about_title" = "Об игре";
+
+/* Back label in the Settings Menu legend */
+"settings_cancel_title" = "Назад";
+
+/* Effects button title in the Settings Menu */
+"settings_effects_title" = "Эффекты";
+
+/* Feedback button title in the Settings Menu */
+"settings_feedback_title" = "Отзыв";
+
+/* Music button title in the Settings Menu */
+"settings_music_title" = "Музыка";
+
+/* Navigation label in the Settings Menu legend */
+"settings_navigation_title" = "Навигация";
+
+/* Select label in the Settings Menu legend */
+"settings_select_title" = "Выбрать";
+
+/* Settings button title in the Settings Menu */
+"settings_settings_title" = "Настройки";
+
+/* Share button title in the Settings Menu */
+"settings_share_title" = "Поделиться";
+
+/* Restore purchases button title in the Settings Menu */
+"settings_restore_title" = "Восстановить";
+
+/* you're currently using gamepad. but next action requires touch input */
+"touch_controls_warning" = "С джойстиком этого не сделать";
+
+/* sign in to game center to share results */
+"levelpassed_gamecenter_signin_title" = "Войдите в Game Center, чтобы делиться результатами с друзьями";
+
+/* in-game popup for new level*/
+"popup_newlevel" = "НОВЫЙ УРОВЕНЬ";
+"popup_life" = "+ ЖИЗНЬ";
+
+
+/* level passed title depending on score */
+"levelpassed_title_0" = "Как у тебя так получается?";
+"levelpassed_title_42" = "Ответ на вопрос вселенной";
+"levelpassed_title_100" = "Хорошо сыграно. Ха-ха";
+"levelpassed_title_500" = "А если постараться?";
+"levelpassed_title_5k" = "Неплохо, мда…";
+"levelpassed_title_15k" = "Ты же можешь лучше";
+"levelpassed_title_50k" = "Что сказать… Все плохо";
+"levelpassed_title_100k" = "Вау… Вот так игра";
+"levelpassed_title_500k" = "Может, в следующий раз?";
+"levelpassed_title_1m" = "Почти миллион";
+"levelpassed_title_5m" = "Серьёзно играешь";
+"levelpassed_title_10m" = "Хорошо сыграно";
+"levelpassed_title_50m" = "Божественно!!!";
+"levelpassed_title_infinity" = "Всё, игра пройдена";
+
+/* Ad */
+"ad_get" = "загрузить";
+"ad_buy" = "узнать больше";
+
+/* Whoniverse ad  */
+"whoniverse_ad_title" = "Нравится Доктор Кто?\nПопробуй Whoniverse";
+"whoniverse_ad_text" = "+Новости Доктора Кто\n+Гид по эпизодам\n+Персонажи\n+Обои\n+Музыка и многое другое...";
+
+/* Gallifreyan ad */
+"gallifreyan_ad_title" = "Нравится Доктор Кто?\nПопробуй Gallifreyan!";
+"gallifreyan_ad_text" = "+Пишите на языке Доктора\n+Ставьте свои фотографии\n+Легко делиться с друзьями\n+Скрипт Лорена Шермана\n";
+
+/* Share Default Text */
+"share_message" = "Мне понравилась игра Dimensional. Попробуй сам!";
