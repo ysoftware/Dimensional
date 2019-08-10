@@ -5,69 +5,56 @@
 //  Copyright (c) 2012 NABZ Software. All rights reserved.
 //
 
-// GameCenterManager uses ARC, check for compatibility before building
-#if !__has_feature(objc_arc)
-    #error GameCenterManager uses Objective-C ARC. Compile these files with ARC enabled. Add the -fobjc-arc compiler flag to enable ARC for only these files.
-#endif
+#include <TargetConditionals.h>
 
 // As of version 5.3, GameCenterManager only runs on iOS 7.0+ and OS X 10.9+, check for compatibility before building. See the GitHub Releases page (https://github.com/nihalahmed/GameCenterManager/releases) for older versions which work with iOS 4.1 and higher and OS X 10.8 and higher. The last supported version for iOS < 7.0 is version 5.2. The last supported version for OS X < 10.9 is also version 5.2.
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS || (TARGET_OS_IPHONE && !TARGET_OS_TV)
     #ifndef __IPHONE_7_0
         #warning GameCenterManager uses features only available in iOS SDK 7.0 and later. Running on an older version of iOS may result in a crash. Download an older release from GitHub for compatibility with iOS SDK < 7.0
     #endif
+#elif TARGET_OS_TV
+    //
+#else
+    #ifndef __MAC_10_9
+        #warning GameCenterManager uses features only available in OS X SDK 10.9 and later. Running on an older version of OS X may result in a crash. Download an older release from GitHub for compatibility with OS X SDK < 10.9
+    #endif
 #endif
 
-#define LIBRARY_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-#define kGameCenterManagerDataFile @"GameCenterManager.plist"
-#define kGameCenterManagerDataPath [LIBRARY_FOLDER stringByAppendingPathComponent:kGameCenterManagerDataFile]
+#if TARGET_OS_IOS || (TARGET_OS_IPHONE && !TARGET_OS_TV)
+    #define kApplicationAppSupportDirectory [NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+    #define kGameCenterManagerDataFile @"GameCenterManager.plist"
+    #define kGameCenterManagerDataPath [kApplicationAppSupportDirectory stringByAppendingPathComponent:kGameCenterManagerDataFile]
+#elif TARGET_OS_TV
+    // tvOS uses NSUserDefaults
+#else
+    #define kApplicationAppSupportDirectory [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"]]
+    #define kGameCenterManagerDataFile @"GameCenterManager.plist"
+    #define kGameCenterManagerDataPath [kApplicationAppSupportDirectory stringByAppendingPathComponent:kGameCenterManagerDataFile]
+#endif
 
-#import <Foundation/Foundation.h>
-#import <GameKit/GameKit.h>
+
+@import Foundation;
+@import GameKit;
 
 #if TARGET_OS_IPHONE
-    #import <UIKit/UIKit.h>
+    @import UIKit;
 #else
-    #import <Cocoa/Cocoa.h>
+    @import Cocoa;
 #endif
 
 #import "Reachability.h"
 #import "NSDataAES256.h"
+#import "GCMConstants.h"
 
-
-
-
-/// Leaderboard sort order. Use this value when submitting new leaderboard scores. This value should match the value set in iTunes Connect for the speicifed leaderboard.
-typedef enum GameCenterSortOrder {
-    /// Scores are sorted highest to lowest. Higher scores are on the top of the leaderboard
-    GameCenterSortOrderHighToLow,
-    /// Scores are sorted lowest to highest. Lower scores are on the top of the leaderboard
-    GameCenterSortOrderLowToHigh
-} GameCenterSortOrder;
-
-enum {
-    /// An unknown error occurred
-    GCMErrorUnknown = 1,
-    /// GameCenterManager is unavailable, possibly for a variety of reasons
-    GCMErrorNotAvailable = 2,
-    /// The requested feature is unavailable on the current device or iOS version
-    GCMErrorFeatureNotAvailable = 3,
-    /// There is no active internet connection for the requested operation
-    GCMErrorInternetNotAvailable = 4,
-    /// The achievement data submitted was not valid because there were missing parameters
-    GCMErrorAchievementDataMissing = 5
-};
-/// GameCenterManager error codes that may be passed in a completion handler's error parameter
-typedef NSInteger GCMErrorCode;
-
-
-
+#if TARGET_OS_IPHONE
+// Multiplayer is currently only available for the iOS platform
+#import "GCMMultiplayer.h"
+#endif
 
 /// GameCenter Manager helps to manage Game Center in iOS and Mac apps. Report and keep track of high scores, achievements, and challenges for different players. GameCenter Manager also takes care of the heavy lifting - checking internet availability, saving data when offline and uploading it when online, etc.
 @class GameCenterManager;
 @protocol GameCenterManagerDelegate;
 @interface GameCenterManager : NSObject <GKGameCenterControllerDelegate>
-
-
 
 
 /// Returns the shared instance of GameCenterManager.
@@ -77,9 +64,13 @@ typedef NSInteger GCMErrorCode;
 @property (nonatomic, weak) id <GameCenterManagerDelegate> delegate;
 
 
+#if TARGET_OS_IPHONE
+/// The multiplayer object used to facilitate and create peer-to-peer multiplayer sessions
+@property (nonatomic, strong) GCMMultiplayer *multiplayerObject;
+#endif
 
 
-/** DEPRECATED. Use \p setupManagerAndSetShouldCryptWithKey: instead.
+/** DEPRECTAED. Use \p setupManagerAndSetShouldCryptWithKey: instead.
     @discussion Initializes GameCenterManager. Should be called at app launch. */
 - (void)initGameCenter __deprecated;
 
@@ -97,14 +88,12 @@ typedef NSInteger GCMErrorCode;
 - (void)syncGameCenter;
 
 
-
-
 /** Saves score locally and reports it to Game Center. If error occurs, score is saved to be submitted later. 
  
- @param score The int value of the score to be submitted to Game Center. This score should not be formatted, instead it should be a plain int. For example, if you wanted to submit a score of 45.28 meters then you would submit it as an integer of 4528. To format your scores, you must set the Score Formatter for your leaderboard in iTunes Connect.
+ @param score The long long value of the score to be submitted to Game Center. This score should not be formatted, instead it should be a plain long long (int). For example, if you wanted to submit a score of 45.28 meters then you would submit it as an integer of 4528. To format your scores, you must set the Score Formatter for your leaderboard in iTunes Connect.
  @param identifier The Leaderboard ID set through iTunes Connect. This is different from the name of the leaderboard, and it is not shown to the user. 
  @param order The score sort order that you set in iTunes Connect - either high to low or low to high. This is used to determine if the user has a new highscore before submitting. */
-- (void)saveAndReportScore:(int)score leaderboard:(NSString *)identifier sortOrder:(GameCenterSortOrder)order __attribute__((nonnull));
+- (void)saveAndReportScore:(long long)score leaderboard:(NSString *)identifier sortOrder:(GameCenterSortOrder)order __attribute__((nonnull));
 
 /** Saves achievement locally and reports it to Game Center. If error occurs, achievement is saved to be submitted later.
  
@@ -112,8 +101,6 @@ typedef NSInteger GCMErrorCode;
  @param percentComplete A percentage value that states how far the player has progressed on this achievement. The range of legal values is between 0.0 and 100.0. Submitting 100.0 will mark the achievement as completed. Submitting a percent which is lower than what the user has already achieved will be ignored - the user's achievement progress cannot go down.
  @param displayNotification YES if GCManager should display a Game Center Achievement banner. NO if no banner should be displayed */
 - (void)saveAndReportAchievement:(NSString *)identifier percentComplete:(double)percentComplete shouldDisplayNotification:(BOOL)displayNotification __attribute__((nonnull));
-
-
 
 
 /// Reports scores and achievements which could not be reported earlier.
@@ -126,15 +113,11 @@ typedef NSInteger GCMErrorCode;
 - (void)saveAchievementToReportLater:(NSString *)identifier percentComplete:(double)percentComplete;
 
 
-
-
 /// Returns local player's high score for specified leaderboard.
-- (int)highScoreForLeaderboard:(NSString *)identifier;
+- (long long)highScoreForLeaderboard:(NSString *)identifier;
 
 /// Returns local player's high scores for multiple leaderboards.
 - (NSDictionary *)highScoreForLeaderboards:(NSArray *)identifiers;
-
-
 
 
 /// Returns local player's percent completed for specified achievement.
@@ -144,25 +127,24 @@ typedef NSInteger GCMErrorCode;
 - (NSDictionary *)progressForAchievements:(NSArray *)identifiers;
 
 
-
-
 /** Gets a list of challenges for the current player and game. If GameCenter is not available it will return nil and provide an error using the gameCenterManager:error: delegate method. Use the completion handler to get challenges.
  @param handler Completion handler with an NSArray containing challenges and an NSError. The NSError object will be nil if there is no error. */
 - (void)getChallengesWithCompletion:(void (^)(NSArray *challenges, NSError *error))handler __attribute__((nonnull));
 
 
-
-
+#if TARGET_OS_IPHONE
 /// Presents the GameCenter Achievements ViewController over the specified ViewController. Dismissal and delegation is handled by GameCenterManager.
 - (void)presentAchievementsOnViewController:(UIViewController *)viewController;
 
-/// Presents the GameCenter Leaderboards ViewController over the specified ViewController. Dismissal and delegation is handled by GameCenterManager.
-- (void)presentLeaderboardsOnViewController:(UIViewController *)viewController;
+/// DEPRECATED. Use presentLeaderboardsOnViewController: withLeaderboard: instead.
+- (void)presentLeaderboardsOnViewController:(UIViewController *)viewController __deprecated;
+
+/// Presents the GameCenter Leaderboards ViewController with Leaderboard Identifier over the specified ViewController. Dismissal and delegation is handled by GameCenterManager.
+- (void)presentLeaderboardsOnViewController:(UIViewController *)viewController withLeaderboard:(NSString *)leaderboard;
 
 /// Presents the GameCenter Challenges ViewController over the specified ViewController. Dismissal and delegation is handled by GameCenterManager.
 - (void)presentChallengesOnViewController:(UIViewController *)viewController;
-
-
+#endif
 
 
 #if TARGET_OS_IPHONE
@@ -175,8 +157,6 @@ typedef NSInteger GCMErrorCode;
 /// DEPRECATED. Use resetAchievementsWithCompletion: instead.
 - (void)resetAchievements __deprecated __unavailable;
 #endif
-
-
 
 
 /// Returns currently authenticated local player ID. If no player is authenticated, "unknownPlayer" is returned.
@@ -197,13 +177,14 @@ typedef NSInteger GCMErrorCode;
 #endif
 
 
-
-
 /// Returns YES if an active internet connection is available.
 - (BOOL)isInternetAvailable;
 
+/// DEPRECATED. Use checkGameCenterAvailability: ignorePreviousStatus: instead.
+- (BOOL)checkGameCenterAvailability __deprecated;
+
 /// Check if Game Center is supported
-- (BOOL)checkGameCenterAvailability;
+- (BOOL)checkGameCenterAvailability:(BOOL)ignorePreviousStatus;
 
 /// Use this property to check if Game Center is available and supported on the current device.
 @property (nonatomic, assign) BOOL isGameCenterAvailable;
@@ -213,8 +194,6 @@ typedef NSInteger GCMErrorCode;
 
 /// @b Readonly. The key used to encrypt and decrypt locally saved scores and achievements. To set the key, setup GameCenterManager using the \p setupManagerAndSetShouldCryptWithKey: method
 @property (nonatomic, strong, readonly) NSString *cryptKey;
-
-
 
 
 @end
@@ -227,6 +206,10 @@ typedef NSInteger GCMErrorCode;
 @required
 /// Required Delegate Method called when the user needs to be authenticated using the GameCenter Login View Controller
 - (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController;
+#else
+@required
+/// Required Delegate Method called when the user needs to be authenticated using the Game Center Login View Controller
+- (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(NSViewController *)gameCenterLoginController;
 #endif
 
 @optional
@@ -245,7 +228,13 @@ typedef NSInteger GCMErrorCode;
 - (void)gameCenterManager:(GameCenterManager *)manager didSaveAchievement:(GKAchievement *)achievement;
 /// Sent to the delegate when a score is saved locally
 - (void)gameCenterManager:(GameCenterManager *)manager didSaveScore:(GKScore *)score;
+/// Sent to the delegate when the Game Center is synced
+- (void)gameCenterManager:(GameCenterManager *)manager gameCenterSynced:(BOOL)synced;
 
+/// Sent to the delegate when the Game Center View Controller is On Screen
+- (void)gameCenterManager:(GameCenterManager *)manager gameCenterViewControllerPresented:(BOOL)finished;
+/// Sent to the delegate when the Game Center View Controller has been dismissed
+- (void)gameCenterManager:(GameCenterManager *)manager gameCenterViewControllerDidFinish:(BOOL)finished;
 
 //----------------------------------//
 //-- Deprecated Delegate Methods ---//
