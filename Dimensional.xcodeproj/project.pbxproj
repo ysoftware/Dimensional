@@ -18,10 +18,6 @@
 		7112AA2D196BE21800DB7D43 /* GeometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112AA2C196BE21800DB7D43 /* GeometryTests.m */; };
 		713C9E8D196EA8E100846ED3 /* SKButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 713C9E8C196EA8E100846ED3 /* SKButton.m */; };
 		714440B521E525B5002A1934 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D5F091DE3040A00489043 /* SoundManager.swift */; };
-		714440B921E53184002A1934 /* menu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 714440B821E53184002A1934 /* menu.mp3 */; };
-		714440BB21E53298002A1934 /* sound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 714440BA21E53298002A1934 /* sound1.mp3 */; };
-		714440BD21E536F3002A1934 /* game.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 714440BC21E536F3002A1934 /* game.mp3 */; };
-		714440BF21E5BAD0002A1934 /* shield.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 714440BE21E5BAD0002A1934 /* shield.mp3 */; };
 		714B8EEA1A38D6AA0042AB89 /* BackgroundScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 714B8EE91A38D6AA0042AB89 /* BackgroundScene.sks */; };
 		716783EE1C5BDED200EBAE67 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 716783ED1C5BDED200EBAE67 /* SpriteKit.framework */; };
 		716D5F071DE0E2E300489043 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 716D5F061DE0E2E300489043 /* GoogleService-Info.plist */; };
@@ -658,7 +654,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				714440BB21E53298002A1934 /* sound1.mp3 in Resources */,
 				7112AA21196BE21800DB7D43 /* Images.xcassets in Resources */,
 				718F47311A96020E003D343A /* closeButton@2x.png in Resources */,
 				718F47351A96035D003D343A /* whoniverse_iphone@2x.jpg in Resources */,
@@ -670,17 +665,14 @@
 				714B8EEA1A38D6AA0042AB89 /* BackgroundScene.sks in Resources */,
 				718603751A87C91F00C0EFAA /* Localizable.strings in Resources */,
 				718603741A87C49000C0EFAA /* Default-568h@2x.png in Resources */,
-				714440B921E53184002A1934 /* menu.mp3 in Resources */,
 				716D5F071DE0E2E300489043 /* GoogleService-Info.plist in Resources */,
 				717B35251A250DCB009526FA /* UI.atlas in Resources */,
 				718F472F1A9601F1003D343A /* whoniverse_ipad@2x.jpg in Resources */,
-				714440BD21E536F3002A1934 /* game.mp3 in Resources */,
 				71E3C5C01A57F970003EBE80 /* Teko-Light.ttf in Resources */,
 				71EA76031A962DDD00F68329 /* gallifreyan_icon@2x.png in Resources */,
 				71CC195A1A69328400CF77C2 /* BebasNeue Regular.otf in Resources */,
 				71EA76051A9630CA00F68329 /* gallifreyan_ipad@2x.jpg in Resources */,
 				71EA76011A962D8A00F68329 /* gallifreyan_iphone@2x.jpg in Resources */,
-				714440BF21E5BAD0002A1934 /* shield.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
