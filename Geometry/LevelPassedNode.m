@@ -195,11 +195,6 @@
         return NSLocalizedString(@"levelpassed_title", @"Game Over Menu title");
 }
 
--(BOOL)shouldShowAds{
-    //проверить, не отключена ли реклама
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"Dimensional.Ads.Remove"] == nil;
-}
-
 #pragma mark - Game Center methods
 
 -(void)inviteFriends{
@@ -397,30 +392,12 @@
 #pragma mark - Delegate calls
 
 -(void)restartLevel{
-    if ([self shouldShowAds]){
-        GameViewController *gvc = (GameViewController*)self.scene.view.window.rootViewController;
-        [gvc showAdsWithCompletionHandler:^{
-            [self runAction:[SKAction fadeOutWithDuration:.2] completion:^{
-                [self actualRestartCall];
-            }];
-        }];
-    }
-    else{
-        [self runAction:[SKAction fadeOutWithDuration:.2] completion:^{
-            [self actualRestartCall];
-        }];
-    }
+    [self runAction:[SKAction fadeOutWithDuration:.2] completion:^{
+        [self actualRestartCall];
+    }];
 }
 
 -(void)quit{
-    if ([self shouldShowAds]){
-        GameViewController *gvc = (GameViewController*)self.scene.view.window.rootViewController;
-        [gvc showAdsWithCompletionHandler:^{
-            [self actualQuitCall];
-        }];
-    }
-    else{
-        [self actualQuitCall];
-    }
+    [self actualQuitCall];
 }
 @end
