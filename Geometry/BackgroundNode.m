@@ -40,7 +40,7 @@
         SKRange *rangeY = [SKRange rangeWithLowerLimit:-y/2 upperLimit:y/2];
         SKConstraint *constraint = [SKConstraint positionX:rangeX Y:rangeY];
 
-        [rootBackgroundNode enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+        for (SKNode *node in rootBackgroundNode.children) {
             if ([node.name isEqualToString:@"BigCircle"]){
                 SKSpriteNode *circle = (SKSpriteNode*)node;
                 [self->bigCircles addObject:circle];
@@ -79,7 +79,7 @@
                 field.categoryBitMask = BackgroundCirclesFieldCategoryBitMask;
                 field.strength = .001;
             }
-        }];
+        }
     }
     return self;
 }

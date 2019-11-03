@@ -911,6 +911,7 @@
 				INFOPLIST_FILE = Geometry/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "ysoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Dimensional;
 				PROVISIONING_PROFILE = "";
@@ -936,6 +937,7 @@
 				INFOPLIST_FILE = Geometry/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "ysoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Dimensional;
 				PROVISIONING_PROFILE = "";
