@@ -40,7 +40,7 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
 
-    MainView *view = [[MainView alloc] initWithFrame:self.view.bounds];
+    MainView *view = [[MainView alloc] initWithFrame: self.view.bounds];
     view.vc = self;
     [self.view addSubview:view];
 

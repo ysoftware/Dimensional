@@ -15,7 +15,6 @@
 		7112AA1C196BE21800DB7D43 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112AA1B196BE21800DB7D43 /* GameViewController.m */; };
 		7112AA1F196BE21800DB7D43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7112AA1D196BE21800DB7D43 /* Main.storyboard */; };
 		7112AA21196BE21800DB7D43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7112AA20196BE21800DB7D43 /* Images.xcassets */; };
-		7112AA2D196BE21800DB7D43 /* GeometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7112AA2C196BE21800DB7D43 /* GeometryTests.m */; };
 		713C9E8D196EA8E100846ED3 /* SKButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 713C9E8C196EA8E100846ED3 /* SKButton.m */; };
 		714440B521E525B5002A1934 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D5F091DE3040A00489043 /* SoundManager.swift */; };
 		714B8EEA1A38D6AA0042AB89 /* BackgroundScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 714B8EE91A38D6AA0042AB89 /* BackgroundScene.sks */; };
@@ -63,23 +62,9 @@
 		71F30DB31A34444B009DEC3C /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F30DAE1A34444B009DEC3C /* GameCenterManager.m */; };
 		71F30DB41A34444B009DEC3C /* NSDataAES256.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F30DB01A34444B009DEC3C /* NSDataAES256.m */; };
 		71F30DB51A34444B009DEC3C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F30DB21A34444B009DEC3C /* Reachability.m */; };
-		76B7D9A7C8637699DD7D32C4 /* libPods-Dimensional.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26FFC7705A32116C03262887 /* libPods-Dimensional.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		7112AA27196BE21800DB7D43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7112AA03196BE21800DB7D43 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7112AA0A196BE21800DB7D43;
-			remoteInfo = Geometry;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		1C58FB8AF33A42394E648B7F /* Pods-Dimensional.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dimensional.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dimensional/Pods-Dimensional.release.xcconfig"; sourceTree = "<group>"; };
-		26FFC7705A32116C03262887 /* libPods-Dimensional.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dimensional.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B3D31D22FB9B621691D2A0F /* Pods-Dimensional.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dimensional.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dimensional/Pods-Dimensional.debug.xcconfig"; sourceTree = "<group>"; };
 		7100A3511AF8ED120002F2A4 /* Share.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Share.jpg; sourceTree = "<group>"; };
 		7108A84F1A3C3F3E00430EE3 /* AlertNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertNode.h; sourceTree = "<group>"; };
 		7108A8501A3C3F3E00430EE3 /* AlertNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertNode.m; sourceTree = "<group>"; };
@@ -96,9 +81,6 @@
 		7112AA1B196BE21800DB7D43 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		7112AA1E196BE21800DB7D43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7112AA20196BE21800DB7D43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
-		7112AA26196BE21800DB7D43 /* DimensionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DimensionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7112AA2B196BE21800DB7D43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7112AA2C196BE21800DB7D43 /* GeometryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeometryTests.m; sourceTree = "<group>"; };
 		713C9E8B196EA8E100846ED3 /* SKButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKButton.h; sourceTree = "<group>"; };
 		713C9E8C196EA8E100846ED3 /* SKButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKButton.m; sourceTree = "<group>"; };
 		714440B821E53184002A1934 /* menu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = menu.mp3; sourceTree = "<group>"; };
@@ -189,36 +171,17 @@
 				71F30DA41A34436A009DEC3C /* CFNetwork.framework in Frameworks */,
 				71EA1E8E1A2DB03D00174C39 /* GameKit.framework in Frameworks */,
 				71EA1E901A2DBCE500174C39 /* StoreKit.framework in Frameworks */,
-				76B7D9A7C8637699DD7D32C4 /* libPods-Dimensional.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7112AA23196BE21800DB7D43 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		683BAEDA2B43BFB449DBC840 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				26FFC7705A32116C03262887 /* libPods-Dimensional.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7112AA02196BE21800DB7D43 = {
 			isa = PBXGroup;
 			children = (
 				7112AA0D196BE21800DB7D43 /* Geometry */,
-				7112AA29196BE21800DB7D43 /* GeometryTests */,
 				7112AA0C196BE21800DB7D43 /* Products */,
-				A8C3EADD1DB8BF7FFDCF2E8E /* Pods */,
-				683BAEDA2B43BFB449DBC840 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -226,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				7112AA0B196BE21800DB7D43 /* Dimensional.app */,
-				7112AA26196BE21800DB7D43 /* DimensionalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,23 +221,6 @@
 				715E151B196E436400F65451 /* Base */,
 				716D5F061DE0E2E300489043 /* GoogleService-Info.plist */,
 				710C3A261A74E3DB0078842F /* Localizable.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7112AA29196BE21800DB7D43 /* GeometryTests */ = {
-			isa = PBXGroup;
-			children = (
-				7112AA2C196BE21800DB7D43 /* GeometryTests.m */,
-				7112AA2A196BE21800DB7D43 /* Supporting Files */,
-			);
-			path = GeometryTests;
-			sourceTree = "<group>";
-		};
-		7112AA2A196BE21800DB7D43 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7112AA2B196BE21800DB7D43 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -550,15 +495,6 @@
 			path = "GC Manager";
 			sourceTree = "<group>";
 		};
-		A8C3EADD1DB8BF7FFDCF2E8E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6B3D31D22FB9B621691D2A0F /* Pods-Dimensional.debug.xcconfig */,
-				1C58FB8AF33A42394E648B7F /* Pods-Dimensional.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -566,7 +502,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7112AA30196BE21800DB7D43 /* Build configuration list for PBXNativeTarget "Dimensional" */;
 			buildPhases = (
-				CE8C684B82E9E3402C64153D /* [CP] Check Pods Manifest.lock */,
 				7112AA07196BE21800DB7D43 /* Sources */,
 				7112AA08196BE21800DB7D43 /* Frameworks */,
 				7112AA09196BE21800DB7D43 /* Resources */,
@@ -580,24 +515,6 @@
 			productName = Geometry;
 			productReference = 7112AA0B196BE21800DB7D43 /* Dimensional.app */;
 			productType = "com.apple.product-type.application";
-		};
-		7112AA25196BE21800DB7D43 /* DimensionalTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7112AA33196BE21800DB7D43 /* Build configuration list for PBXNativeTarget "DimensionalTests" */;
-			buildPhases = (
-				7112AA22196BE21800DB7D43 /* Sources */,
-				7112AA23196BE21800DB7D43 /* Frameworks */,
-				7112AA24196BE21800DB7D43 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7112AA28196BE21800DB7D43 /* PBXTargetDependency */,
-			);
-			name = DimensionalTests;
-			productName = GeometryTests;
-			productReference = 7112AA26196BE21800DB7D43 /* DimensionalTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -621,11 +538,6 @@
 							};
 						};
 					};
-					7112AA25196BE21800DB7D43 = {
-						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = S422Q897FZ;
-						TestTargetID = 7112AA0A196BE21800DB7D43;
-					};
 				};
 			};
 			buildConfigurationList = 7112AA06196BE21800DB7D43 /* Build configuration list for PBXProject "Dimensional" */;
@@ -644,7 +556,6 @@
 			projectRoot = "";
 			targets = (
 				7112AA0A196BE21800DB7D43 /* Dimensional */,
-				7112AA25196BE21800DB7D43 /* DimensionalTests */,
 			);
 		};
 /* End PBXProject section */
@@ -676,13 +587,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7112AA24196BE21800DB7D43 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -698,24 +602,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
-		};
-		CE8C684B82E9E3402C64153D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Dimensional-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -753,23 +639,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7112AA22196BE21800DB7D43 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7112AA2D196BE21800DB7D43 /* GeometryTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		7112AA28196BE21800DB7D43 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7112AA0A196BE21800DB7D43 /* Dimensional */;
-			targetProxy = 7112AA27196BE21800DB7D43 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		710C3A261A74E3DB0078842F /* Localizable.strings */ = {
@@ -898,7 +768,6 @@
 		};
 		7112AA31196BE21800DB7D43 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B3D31D22FB9B621691D2A0F /* Pods-Dimensional.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -924,7 +793,6 @@
 		};
 		7112AA32196BE21800DB7D43 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C58FB8AF33A42394E648B7F /* Pods-Dimensional.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -947,46 +815,6 @@
 			};
 			name = Release;
 		};
-		7112AA34196BE21800DB7D43 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Geometry.app/Geometry";
-				DEVELOPMENT_TEAM = S422Q897FZ;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = GeometryTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ysoftware.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = DimensionalTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Debug;
-		};
-		7112AA35196BE21800DB7D43 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Geometry.app/Geometry";
-				DEVELOPMENT_TEAM = S422Q897FZ;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = GeometryTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "ysoftware.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = DimensionalTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1004,15 +832,6 @@
 			buildConfigurations = (
 				7112AA31196BE21800DB7D43 /* Debug */,
 				7112AA32196BE21800DB7D43 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7112AA33196BE21800DB7D43 /* Build configuration list for PBXNativeTarget "DimensionalTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7112AA34196BE21800DB7D43 /* Debug */,
-				7112AA35196BE21800DB7D43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
