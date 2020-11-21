@@ -10,5 +10,4 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface GameViewController : UIViewController
--(BOOL)showAdsWithCompletionHandler:(void(^)(void))completion;
 @end

@@ -11,7 +11,6 @@
 #import "MainView.h"
 #import "SKButton.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "Y_IAP.h"
 
 @interface SettingsNode () <MFMailComposeViewControllerDelegate, AlertNodeDelegate>
 @end
@@ -206,7 +205,6 @@
         [self runAction:animation];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupControllers) name:NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(provideContentForProductIdentifier:) name:IAPHelperProductPurchasedNotification object:nil];
 
         [self setupControllers];
     }
@@ -326,47 +324,7 @@
     [aboutButton addChild:aboutTitle];
 
     buttons = [NSMutableArray arrayWithObjects:settingsButton, shareButton, feedbackButton, nil];
-
-//    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"Dimensional.Ads.Remove"]){
-//        //REMOVE ADS BUTTON
-//        SKButton *removeAdsButton = [[SKButton alloc] initWithImageNamed:@"settingsMenu_RemoveAdsButton" colorNormal:UI_COLOR_SETTINGS_REMOVEADS_NORMAL colorSelected:UI_COLOR_SETTINGS_REMOVEADS_SELECTED];
-//        removeAdsButton.size = CGSizeMake(100, 123);
-//        removeAdsButton.zPosition = 2;
-//        removeAdsButton.position = CGPointMake(381, 0);
-//        [removeAdsButton setTouchUpInsideTarget:self action:@selector(removeAdsButtonClicked)];
-//
-//        SKLabelNode *removeAdsTitle = [SKLabelNode labelNodeWithFontNamed:appDelegate.defaultFontName];
-//        removeAdsTitle.fontSize = appDelegate.defaultFontSize;
-//        removeAdsTitle.text = [NSLocalizedString(@"settings_remove_ads_title", @"Remove Ads Button Title") uppercaseString];
-//        removeAdsTitle.verticalAlignmentMode = SKLabelVerticalAlignmentModeBaseline;
-//        removeAdsTitle.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-//        removeAdsTitle.position = CGPointMake(0, 28);
-//        removeAdsTitle.fontColor = removeAdsButton.color;
-//        [removeAdsButton addChild:removeAdsTitle];
-//        [buttons addObject:removeAdsButton];
-//
-//        //RESTORE PURCHASES BUTTON
-//        SKButton *restorePurchasesButton = [[SKButton alloc] initWithImageNamed:@"settingsMenu_RestorePurchasesButton" colorNormal:UI_COLOR_SETTINGS_RESTOREPURCHASES_NORMAL colorSelected:UI_COLOR_SETTINGS_RESTOREPURCHASES_SELECTED];
-//        restorePurchasesButton.size = CGSizeMake(100, 123);
-//        restorePurchasesButton.zPosition = 2;
-//        restorePurchasesButton.position = CGPointMake(481, 0);
-//        [restorePurchasesButton setTouchUpInsideTarget:self action:@selector(restorePurchases)];
-//
-//        SKLabelNode *restorePurchasesTitle = [SKLabelNode labelNodeWithFontNamed:appDelegate.defaultFontName];
-//        restorePurchasesTitle.fontSize = appDelegate.defaultFontSize;
-//        restorePurchasesTitle.text = [NSLocalizedString(@"settings_restore_title", nil) uppercaseString];
-//        restorePurchasesTitle.verticalAlignmentMode = SKLabelVerticalAlignmentModeBaseline;
-//        restorePurchasesTitle.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-//        restorePurchasesTitle.position = CGPointMake(0, 28);
-//        restorePurchasesTitle.fontColor = restorePurchasesButton.color;
-//        [restorePurchasesButton addChild:restorePurchasesTitle];
-//        [buttons addObject:restorePurchasesButton];
-//
-//        self.size = CGSizeMake(550, 123);
-//    }
-//    else {
-        self.size = CGSizeMake(350, 123);
-//    }
+    self.size = CGSizeMake(350, 123);
 
     [self reloadButtons];
     for (SKButton *s in buttons){
@@ -447,29 +405,6 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Dimensional.Ads.Remove"];
 }
 
--(void)removeAdsButtonClicked{
-    if ([Y_IAP sharedInstance].products.count>0){
-        SKProduct *product = (SKProduct*)[Y_IAP sharedInstance].products[0];
-
-        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-        [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-        [numberFormatter setLocale:product.priceLocale];
-        NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
-
-        for (SKButton *s in buttons){ s.isEnabled = NO; }
-        MainView *mainView = (MainView*)self.scene.view;
-        NSString *localizedFormatString = NSLocalizedString(@"remove_ads_dialog_title", nil);
-        [mainView presentAlertNodeWithId:@"REMOVEADS_DIALOG" title:[NSString stringWithFormat:localizedFormatString, formattedPrice] andDelegate:self];
-    }
-}
-
--(void)restorePurchases{
-    if ([Y_IAP sharedInstance].products.count>0){
-        [[Y_IAP sharedInstance] restoreCompletedTransactions];
-    }
-}
-
 -(void)closeButtonClicked{
     [self close];
 }
@@ -525,23 +460,6 @@
     }];
 }
 
-#pragma mark - In App Purcase Handler
-
--(void)provideContentForProductIdentifier:(NSNotification *)notification{
-    NSString *identifier = [[notification userInfo] objectForKey:@"id"];
-
-    if ([identifier isEqualToString:@"Dimensional.Ads.Remove"]){
-        [self resetUI];
-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"remove_ads_done_title", nil)
-                                                          message:NSLocalizedString(@"remove_ads_done_text", nil)
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-
-        [message show];
-    }
-}
-
 #pragma mark - AlertNode delegate
 
 -(void)alertOKWithId:(NSString *)id{
@@ -552,23 +470,14 @@
         [appDelegate gamepadResetButtonsHandlers];
         [self sendFeedback];
     }
-    else if ([id isEqualToString:@"REMOVEADS_DIALOG"]){
-        if ([Y_IAP sharedInstance].products.count>0){
-            [[Y_IAP sharedInstance] buyProduct:[Y_IAP sharedInstance].products[0]];
-        }
-    }
     [self setupGamepadButtons];
 }
 
 -(void)alertCancelWithId:(NSString *)id{
     for (SKButton *s in buttons){ s.isEnabled = YES; }
-    //    AppDelegate *appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
     
-    if ([id isEqualToString:@"FEEDBACK_TOUCH_ALERT"]){
-        //do nothing, ok
-    }
-    else if ([id isEqualToString:@"REMOVEADS_DIALOG"]){
-        //do nothing, ok
+    if ([id isEqualToString:@"FEEDBACK_TOUCH_ALERT"]) {
+        // do nothing, ok
     }
     [self setupGamepadButtons];
 }

@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "GameCenterManager.h"
 #import "MainView.h"
-#import "Y_IAP.h"
 #import "BackgroundNode.h"
 //@import Firebase;
 
