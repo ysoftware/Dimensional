@@ -47,22 +47,22 @@
 #pragma mark - Scenes
 
 -(void)switchToLevelScene {
-    LevelScene *levelScene = [[LevelScene alloc] initWithSize:sceneSize];
+    LevelScene *levelScene = [[LevelScene alloc] initWithSize: sceneSize];
     [backgroundNode removeFromParent];
     levelScene.scaleMode = SKSceneScaleModeAspectFill;
     levelScene.backgroundNode = backgroundNode;
-    [levelScene addChild:backgroundNode];
-    [self presentScene:levelScene];
+    [levelScene addChild: backgroundNode];
+    [self presentScene: levelScene];
 }
 
 -(void)switchToMainMenuSceneWithAnimationInForward:(BOOL)forward {
-    MainMenu *mainMenuScene = [[MainMenu alloc] initWithSize:sceneSize];
+    MainMenu *mainMenuScene = [[MainMenu alloc] initWithSize: sceneSize];
     mainMenuScene.firstLoad = forward;
     [backgroundNode removeFromParent];
     mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
     mainMenuScene.backgroundNode = backgroundNode;
-    [mainMenuScene addChild:backgroundNode];
-    [self presentScene:mainMenuScene];
+    [mainMenuScene addChild: backgroundNode];
+    [self presentScene: mainMenuScene];
 }
 
 #pragma mark - Popover Nodes
