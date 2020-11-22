@@ -19,4 +19,5 @@
 @interface LevelScene : SKScene
 @property (strong, nonatomic) BackgroundNode *backgroundNode;
 -(void)pause;
+-(instancetype)initWithSize:(CGSize)size andEdgeInsets:(UIEdgeInsets)safeEdges;
 @end

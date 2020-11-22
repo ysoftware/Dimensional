@@ -16,6 +16,7 @@
 @implementation MainView{
     BackgroundNode *backgroundNode;
     CGSize sceneSize;
+    UIEdgeInsets safeAreaInsets;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -25,13 +26,6 @@
         self.ignoresSiblingOrder = YES;
         [GameCenterManager sharedManager].delegate = self;
 
-        //set up background node
-        SKNode *circlesNode = [[SKScene unarchiveFromFile:@"BackgroundScene"] childNodeWithName:@"root"];
-        [circlesNode removeFromParent];
-        backgroundNode = [[BackgroundNode alloc] initWithColor:[SKColor clearColor] size:CGSizeMake(2048, 1536) andCirclesNode:circlesNode];
-
-        sceneSize = CGSizeMake(1024, 1024/(self.bounds.size.width/self.bounds.size.height));
-        [self switchToMainMenuSceneWithAnimationInForward:YES];
 
 #if DEBUG
         self.showsFPS = YES;
@@ -44,10 +38,31 @@
     return self;
 }
 
+- (void)setup {
+
+    // set up background node
+    SKNode *circlesNode = [[SKScene unarchiveFromFile: @"BackgroundScene"] childNodeWithName: @"root"];
+    [circlesNode removeFromParent];
+    backgroundNode = [[BackgroundNode alloc] initWithColor: [SKColor clearColor]
+                                                      size: CGSizeMake(2048, 1536)
+                                            andCirclesNode: circlesNode];
+ 
+    // setup scene size
+    CGSize size = self.bounds.size;
+    sceneSize = CGSizeMake(1024, 1024/(size.width/size.height));
+    CGFloat mult = size.height / sceneSize.height;
+    safeAreaInsets = UIEdgeInsetsMake(self.layoutMargins.top * mult,
+                                      self.layoutMargins.left * mult,
+                                      self.layoutMargins.bottom * mult,
+                                      self.layoutMargins.right * mult);
+
+    [self switchToMainMenuSceneWithAnimationInForward:YES];
+}
+
 #pragma mark - Scenes
 
 -(void)switchToLevelScene {
-    LevelScene *levelScene = [[LevelScene alloc] initWithSize: sceneSize];
+    LevelScene *levelScene = [[LevelScene alloc] initWithSize: sceneSize andEdgeInsets: safeAreaInsets];
     [backgroundNode removeFromParent];
     levelScene.scaleMode = SKSceneScaleModeAspectFill;
     levelScene.backgroundNode = backgroundNode;
@@ -56,7 +71,7 @@
 }
 
 -(void)switchToMainMenuSceneWithAnimationInForward:(BOOL)forward {
-    MainMenu *mainMenuScene = [[MainMenu alloc] initWithSize: sceneSize];
+    MainMenu *mainMenuScene = [[MainMenu alloc] initWithSize:sceneSize];
     mainMenuScene.firstLoad = forward;
     [backgroundNode removeFromParent];
     mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
@@ -68,7 +83,7 @@
 #pragma mark - Popover Nodes
 
 -(void)presentPauseMenuWithDelegate:(id<PauseNodeDelegate>)delegate {
-    PauseNode *node = [[PauseNode alloc] init];
+    PauseNode *node = [[PauseNode alloc] initWithEdgeInsets:safeAreaInsets];
     node.delegate = delegate;
     [self.scene addChild:node];
 }

@@ -15,44 +15,61 @@
 @interface GameViewController ()
 @end
 
-@implementation GameViewController{
+@implementation GameViewController {
+    BOOL didSetup;
 }
 
 #pragma mark - View Controller life cycle
 
--(void)willResignActive:(NSNotification*)notification{
+-(void)willResignActive:(NSNotification*)notification {
     SKView *view = (SKView*)self.view;
     view.paused = YES;
     view.scene.paused = YES;
 }
 
--(void)didBecomeActive:(NSNotification*)notification{
+-(void)didBecomeActive:(NSNotification*)notification {
     SKView *view = (SKView*)self.view;
     view.paused = NO;
     view.scene.paused = NO;
 }
 
--(void)viewDidLoad{
+-(void)viewDidLoad {
     [super viewDidLoad];
+    didSetup = false;
 
-    MainView *view = [[MainView alloc] initWithFrame: self.view.bounds];
-    view.vc = self;
-    [self.view addSubview:view];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(willResignActive:)
+                                                 name: UIApplicationWillResignActiveNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(didBecomeActive:)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
 
     //default settings
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:USERDEFAULTS_EFFECTSENABLED])
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USERDEFAULTS_EFFECTSENABLED];
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:USERDEFAULTS_MUSICENABLED])
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:USERDEFAULTS_MUSICENABLED];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey: USERDEFAULTS_EFFECTSENABLED])
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: USERDEFAULTS_EFFECTSENABLED];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey: USERDEFAULTS_MUSICENABLED])
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: USERDEFAULTS_MUSICENABLED];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    if (!didSetup) {
+        didSetup = true;
+        
+        MainView *view = [[MainView alloc] initWithFrame: self.view.bounds];
+        view.vc = self;
+        [self.view addSubview: view];
+        [view setup];
+    }
 }
 
 #pragma mark - Settings
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate {
     return YES;
 }
 

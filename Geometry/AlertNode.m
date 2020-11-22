@@ -10,7 +10,7 @@
 #import "SKButton.h"
 #import "MainView.h"
 
-@implementation AlertNode{
+@implementation AlertNode {
     SKButton *okButton, *cancelButton;
 }
 
@@ -18,7 +18,7 @@
 
 #pragma mark - Game controller methods
 
--(void)setupControllers{
+-(void)setupControllers {
     AppDelegate *appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
     [appDelegate gamepadResetButtonsHandlers];
 

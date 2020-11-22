@@ -86,7 +86,8 @@
     [appDelegate gamepadResetButtonsHandlers];
     __unsafe_unretained typeof(self) weakSelf = self;
     appDelegate.currentController.controllerPausedHandler = ^(GCController *controller) {
-        [weakSelf pause]; };
+        [weakSelf pause];
+    };
 }
 
 -(void)controllerSetActive:(BOOL)active{
@@ -106,7 +107,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)willResignActive:(NSNotification*)notification{
+-(void)willResignActive: (NSNotification*) notification {
 #ifdef DEBUG
     NSLog(@"levelScene: willResignActive");
 #endif
@@ -114,118 +115,190 @@
         [self pause];
 }
 
--(void)didBecomeActive:(NSNotification*)notification{
+-(void)didBecomeActive: (NSNotification*) notification {
 #ifdef DEBUG
     NSLog(@"levelScene: didBecomeActive, paused = %@", self.levelPaused ? @"YES" : @"NO");
 #endif
 }
 
--(instancetype)initWithSize:(CGSize)size{
-    self = [super initWithSize:size];
-    if (self){
+-(instancetype)initWithSize:(CGSize)size andEdgeInsets:(UIEdgeInsets)safeEdges {
+    self = [super initWithSize: size];
+    if (self) {
         self.physicsWorld.gravity = CGVectorMake(0, 0);
 
         appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
         [GCController stopWirelessControllerDiscovery];
 
-        //ИНИЦИАЛИЗАЦИЯ
+        // ИНИЦИАЛИЗАЦИЯ
         gameState = LevelScene_GameStatus_Initializing;
         enemies = [[NSMutableArray alloc] init];
         enemiesToSpawn = [[NSMutableArray alloc] init];
         projectiles = [[NSMutableArray alloc] init];
         presentMultipliers = [[NSMutableArray alloc] init];
-        //joystick controls
+
+        CGFloat topY = (size.height/2) - safeEdges.top - 5;
+
+        // joystick controls
         joystickRight = [[JCJoystick alloc]
-                         initWithControlRadius:80
-                         baseRadius:80
-                         baseColor:[SKColor colorWithRed:1 green:1 blue:1 alpha:.1]
-                         joystickRadius:30
-                         joystickColor:[SKColor colorWithRed:1 green:1 blue:1 alpha:.4]];
-        [joystickRight setUserInteractionEnabled:NO];
+                         initWithControlRadius: 80
+                         baseRadius: 80
+                         baseColor: [SKColor colorWithRed: 1 green: 1 blue: 1 alpha: .1]
+                         joystickRadius: 30
+                         joystickColor: [SKColor colorWithRed: 1 green: 1 blue: 1 alpha: .4]];
+        [joystickRight setUserInteractionEnabled: NO];
         joystickRight.position = CGPointMake(350, -192);
         joystickRight.zPosition = 2;
 
         joystickLeft = [[JCJoystick alloc]
-                        initWithControlRadius:80
-                        baseRadius:80
-                        baseColor:[SKColor colorWithRed:1 green:1 blue:1 alpha:.1]
-                        joystickRadius:30
-                        joystickColor:[SKColor colorWithRed:1 green:1 blue:1 alpha:.4]];
-        [joystickLeft setUserInteractionEnabled:NO];
+                        initWithControlRadius: 80
+                        baseRadius: 80
+                        baseColor: [SKColor colorWithRed: 1 green: 1 blue: 1 alpha: .1]
+                        joystickRadius: 30
+                        joystickColor: [SKColor colorWithRed: 1 green: 1 blue: 1 alpha: .4]];
+        [joystickLeft setUserInteractionEnabled: NO];
         joystickLeft.position = CGPointMake(-350, -192);
         joystickLeft.zPosition = 2;
 
-        defencesLeftLabelNode = [[SKLabelNode alloc] initWithFontNamed:@"Teko Light"];
+        SKTexture *defencesTexture = [[SKTextureAtlas atlasNamed: @"UI"] textureNamed: @"defencesLeftIcon"];
+        defencesLeftIconNode = [SKSpriteNode spriteNodeWithTexture:defencesTexture size: CGSizeMake(19, 19)];
+        defencesLeftIconNode.anchorPoint = CGPointMake(1, 1);
+        CGFloat defencesLeftIconX = (size.width/2 - 19 - 10 - safeEdges.left) * -1;
+        CGFloat defencesLeftIconY = topY;
+        defencesLeftIconNode.position = CGPointMake(defencesLeftIconX, defencesLeftIconY);
+        defencesLeftIconNode.zPosition = 1;
+
+        defencesLeftLabelNode = [[SKLabelNode alloc] initWithFontNamed: @"Teko Light"];
         defencesLeftLabelNode.fontSize = 30;
         defencesLeftLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
         defencesLeftLabelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
-        defencesLeftLabelNode.position = CGPointMake(-475, size.height/2-5);
+        CGFloat defencesLeftLabelX = defencesLeftIconNode.position.x + 5;
+        CGFloat defencesLeftLabelY = topY;
+        defencesLeftLabelNode.position = CGPointMake(defencesLeftLabelX, defencesLeftLabelY);
         defencesLeftLabelNode.text = @"0";
         defencesLeftLabelNode.zPosition = 1;
 
-        defencesLeftIconNode = [SKSpriteNode spriteNodeWithTexture:[[SKTextureAtlas atlasNamed:@"UI"] textureNamed:@"defencesLeftIcon"] size:CGSizeMake(19, 19)];
-        defencesLeftIconNode.anchorPoint = CGPointMake(1, 1);
-        defencesLeftIconNode.position = CGPointMake(-480, size.height/2-5);
-        defencesLeftIconNode.zPosition = 1;
-
-        multiplierLabelNode = [[SKLabelNode alloc] initWithFontNamed:@"Teko Light"];
+        multiplierLabelNode = [[SKLabelNode alloc] initWithFontNamed: @"Teko Light"];
         multiplierLabelNode.fontSize = 30;
         multiplierLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
         multiplierLabelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
-        multiplierLabelNode.position = CGPointMake(0, size.height/2-7);
+        multiplierLabelNode.position = CGPointMake(0, topY - 2);
         multiplierLabelNode.text = @"x1";
         multiplierLabelNode.zPosition = 1;
 
-        scoreLabelNode = [[SKLabelNode alloc] initWithFontNamed:@"Teko Light"];
+        scoreLabelNode = [[SKLabelNode alloc] initWithFontNamed: @"Teko Light"];
         scoreLabelNode.fontSize = 60;
         scoreLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
         scoreLabelNode.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
-        scoreLabelNode.position = CGPointMake(0, size.height/2-7);
+        CGFloat scoreLabelX = 0;
+        CGFloat scoreLabelY = topY - 2;
+        scoreLabelNode.position = CGPointMake(scoreLabelX, scoreLabelY);
         scoreLabelNode.text = @"0";
         scoreLabelNode.zPosition = 1;
 
-        pauseButton = [[SKButton alloc] initWithImageNamed:@"pauseButton" colorNormal:[SKColor whiteColor] colorSelected:UI_COLOR_RED_BACK_SELECTED];
-        [pauseButton setPosition:CGPointMake(490, size.height/2-35)];
+        pauseButton = [[SKButton alloc] initWithImageNamed: @"pauseButton"
+                                               colorNormal: [SKColor whiteColor]
+                                             colorSelected: UI_COLOR_RED_BACK_SELECTED];
+        CGFloat pauseButtonX = size.width/2 - 22 - safeEdges.right;
+        CGFloat pauseButtonY = topY - 30;
+        pauseButton.position = CGPointMake(pauseButtonX, pauseButtonY);
         pauseButton.size = CGSizeMake(90, 90);
-        [pauseButton setTouchDownTarget:self action:@selector(pause)];
+        [pauseButton setTouchDownTarget: self action: @selector(pause)];
         pauseButton.zPosition = 2;
 
-        //ОСНОВНЫЕ НАСТРОЙКИ
+        // ОСНОВНЫЕ НАСТРОЙКИ
         self.backgroundColor = [SKColor clearColor];
         self.physicsWorld.gravity = CGVectorMake(0, 0);
         self.physicsWorld.contactDelegate = self;
         self.anchorPoint = CGPointMake(0.5, 0.5);
 
-        borderNode = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"border"]];
+        borderNode = [SKSpriteNode spriteNodeWithTexture: [SKTexture textureWithImageNamed: @"border"]];
         borderNode.size = CGSizeMake(1100, 900);
-        borderNode.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(borderNode.frame.origin.x+4, borderNode.frame.origin.y+4, borderNode.size.width-8, borderNode.size.height-8)];
+        borderNode.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:
+                                  CGRectMake(borderNode.frame.origin.x+4, borderNode.frame.origin.y+4,
+                                             borderNode.size.width-8, borderNode.size.height-8)];
         borderNode.physicsBody.categoryBitMask = WallCategoryBitMask;
         borderNode.physicsBody.usesPreciseCollisionDetection = YES;
 
         glassNode = [SKNode node];
         glassNode.zPosition = 1;
 
-        player = [[Player alloc] initWithPosition:CGPointMake(0, 0)];
+        player = [[Player alloc] initWithPosition: CGPointMake(0, 0)];
 
-        //multitasking
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupControllers) name:NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED object:nil];
+        // multitasking
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(willResignActive:)
+                                                     name: UIApplicationWillResignActiveNotification
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(didBecomeActive:)
+                                                     name: UIApplicationDidBecomeActiveNotification
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(setupControllers)
+                                                     name: NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED
+                                                   object: nil];
 
-        NSDictionary *level0Settings = @{@"points":@0, @"spawnTime":@6.5, @"spawnCount":@5, @"fireTime":@.25, @"fireCount":@1, @"multiplierCount":@1, @"rectangleChance":@65, @"iTriangleChance":@20, @"eTriangleChance":@5, @"pentagonChance":@0};
-        NSDictionary *level1Settings = @{@"points":@500, @"spawnTime":@5.5, @"spawnCount":@6, @"fireTime":@.23, @"fireCount":@1, @"multiplierCount":@3, @"rectangleChance":@56, @"iTriangleChance":@30, @"eTriangleChance":@10, @"pentagonChance":@5};
-        NSDictionary *level2Settings = @{@"points":@5000, @"spawnTime":@5.0, @"spawnCount":@7, @"fireTime":@.25, @"fireCount":@2, @"multiplierCount":@5, @"rectangleChance":@40, @"iTriangleChance":@20, @"eTriangleChance":@15, @"pentagonChance":@5};
-        NSDictionary *level3Settings = @{@"points":@35000, @"spawnTime":@5.25, @"spawnCount":@8, @"fireTime":@.23, @"fireCount":@2, @"multiplierCount":@7, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level4Settings = @{@"points":@100000, @"spawnTime":@5.0, @"spawnCount":@9, @"fireTime":@.21, @"fireCount":@2, @"multiplierCount":@9, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level5Settings = @{@"points":@250000, @"spawnTime":@4.5, @"spawnCount":@10, @"fireTime":@.19, @"fireCount":@2, @"multiplierCount":@11, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level6Settings = @{@"points":@750000, @"spawnTime":@4.5, @"spawnCount":@9, @"fireTime":@.21, @"fireCount":@3, @"multiplierCount":@13, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level7Settings = @{@"points":@1500000, @"spawnTime":@4.25, @"spawnCount":@10, @"fireTime":@.19, @"fireCount":@3, @"multiplierCount":@15, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level8Settings = @{@"points":@2500000, @"spawnTime":@4.0, @"spawnCount":@11, @"fireTime":@.17, @"fireCount":@3, @"multiplierCount":@17, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level9Settings = @{@"points":@3500000, @"spawnTime":@3.75, @"spawnCount":@12, @"fireTime":@.15, @"fireCount":@3, @"multiplierCount":@19, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
-        NSDictionary *level10Settings = @{@"points":@5000000, @"spawnTime":@3.5, @"spawnCount":@12, @"fireTime":@.17, @"fireCount":@4, @"multiplierCount":@21, @"rectangleChance":@20, @"iTriangleChance":@20, @"eTriangleChance":@20, @"pentagonChance":@20};
+        NSDictionary *level0Settings = @{ @"points":@0, @"spawnTime":@6.5,
+                                          @"spawnCount":@5, @"fireTime":@.25,
+                                          @"fireCount":@1, @"multiplierCount":@1,
+                                          @"rectangleChance":@65, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@5, @"pentagonChance":@0 };
+        NSDictionary *level1Settings = @{ @"points":@500, @"spawnTime":@5.5,
+                                          @"spawnCount":@6, @"fireTime":@.23,
+                                          @"fireCount":@1, @"multiplierCount":@3,
+                                          @"rectangleChance":@56, @"iTriangleChance":@30,
+                                          @"eTriangleChance":@10, @"pentagonChance":@5 };
+        NSDictionary *level2Settings = @{ @"points":@5000, @"spawnTime":@5.0,
+                                          @"spawnCount":@7, @"fireTime":@.25,
+                                          @"fireCount":@2, @"multiplierCount":@5,
+                                          @"rectangleChance":@40, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@15, @"pentagonChance":@5 };
+        NSDictionary *level3Settings = @{ @"points":@35000, @"spawnTime":@5.25,
+                                          @"spawnCount":@8, @"fireTime":@.23,
+                                          @"fireCount":@2, @"multiplierCount":@7,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level4Settings = @{ @"points":@100000, @"spawnTime":@5.0,
+                                          @"spawnCount":@9, @"fireTime":@.21,
+                                          @"fireCount":@2, @"multiplierCount":@9,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level5Settings = @{ @"points":@250000, @"spawnTime":@4.5,
+                                          @"spawnCount":@10, @"fireTime":@.19,
+                                          @"fireCount":@2, @"multiplierCount":@11,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level6Settings = @{ @"points":@750000, @"spawnTime":@4.5,
+                                          @"spawnCount":@9, @"fireTime":@.21,
+                                          @"fireCount":@3, @"multiplierCount":@13,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level7Settings = @{ @"points":@1500000, @"spawnTime":@4.25,
+                                          @"spawnCount":@10, @"fireTime":@.19,
+                                          @"fireCount":@3, @"multiplierCount":@15,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level8Settings = @{ @"points":@2500000, @"spawnTime":@4.0,
+                                          @"spawnCount":@11, @"fireTime":@.17,
+                                          @"fireCount":@3, @"multiplierCount":@17,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level9Settings = @{ @"points":@3500000, @"spawnTime":@3.75,
+                                          @"spawnCount":@12, @"fireTime":@.15,
+                                          @"fireCount":@3, @"multiplierCount":@19,
+                                          @"rectangleChance":@20, @"iTriangleChance":@20,
+                                          @"eTriangleChance":@20, @"pentagonChance":@20 };
+        NSDictionary *level10Settings = @{ @"points":@5000000, @"spawnTime":@3.5,
+                                           @"spawnCount":@12, @"fireTime":@.17,
+                                           @"fireCount":@4, @"multiplierCount":@21,
+                                           @"rectangleChance":@20, @"iTriangleChance":@20,
+                                           @"eTriangleChance":@20, @"pentagonChance":@20 };
 
-        levelSettings = @[level0Settings, level1Settings, level2Settings, level3Settings, level4Settings, level5Settings, level6Settings, level7Settings, level8Settings, level9Settings, level10Settings];
-        enemyTypes = @[ENEMY_TYPE_RECTANGLE, ENEMY_TYPE_RHOMB, ENEMY_TYPE_ETRIANGLE, ENEMY_TYPE_PENTAGON, ENEMY_TYPE_ITRIANGLE];
+        levelSettings = @[level0Settings, level1Settings, level2Settings,
+                          level3Settings, level4Settings, level5Settings, level6Settings,
+                          level7Settings, level8Settings, level9Settings, level10Settings];
+        enemyTypes = @[ENEMY_TYPE_RECTANGLE, ENEMY_TYPE_RHOMB, ENEMY_TYPE_ETRIANGLE,
+                       ENEMY_TYPE_PENTAGON, ENEMY_TYPE_ITRIANGLE];
 
     }
     return self;
@@ -235,13 +308,13 @@
     mainView = (MainView*)self.view;
     mainView.multipleTouchEnabled = YES;
 
-    [self.scene addChild:defencesLeftLabelNode];
-    [self.scene addChild:scoreLabelNode];
-    [self.scene addChild:multiplierLabelNode];
-    [self.scene addChild:pauseButton];
-    [self.scene addChild:glassNode];
-    [self.scene addChild:defencesLeftIconNode];
-    [glassNode addChild:borderNode];
+    [self.scene addChild: defencesLeftLabelNode];
+    [self.scene addChild: scoreLabelNode];
+    [self.scene addChild: multiplierLabelNode];
+    [self.scene addChild: pauseButton];
+    [self.scene addChild: glassNode];
+    [self.scene addChild: defencesLeftIconNode];
+    [glassNode addChild: borderNode];
 
     //hide ui
     defencesLeftLabelNode.alpha = 0;
@@ -264,8 +337,8 @@
     player.yScale = 0;
     player.alpha = 0;
     [glassNode addChild:player];
-    [player runAction:[SKAction scaleTo:1 duration:.25]];
-    [player runAction:[SKAction fadeInWithDuration:.25]];
+    [player runAction:[SKAction scaleTo: 1 duration: .25]];
+    [player runAction:[SKAction fadeInWithDuration: .25]];
 }
 
 -(void)update:(CFTimeInterval)currentTime {

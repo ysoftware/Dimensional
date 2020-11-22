@@ -55,11 +55,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(instancetype)init{
+-(instancetype)initWithEdgeInsets:(UIEdgeInsets)safeEdges {
+
     CGSize size = CGSizeMake(900, 650);
-    if (IS_IPHONE) size = CGSizeMake(1024, 683);
-    
-    self = [super initWithColor:[SKColor colorWithRed:0 green:0 blue:0 alpha:.85] size:size];
+    if (IS_IPHONE) {
+        size = CGSizeMake(1024, 683);
+    }
+
+    self = [super initWithColor: [SKColor colorWithRed: 0 green: 0 blue: 0 alpha: .85] size:size];
     if (self){
         self.zPosition = 9;
         self.name = @"PauseNode";
@@ -72,39 +75,55 @@
         titleLabelNode.position = CGPointMake(0, 0);
         [self addChild:titleLabelNode];
 
+        CGFloat buttonRight = size.width/2 / 1.5 - safeEdges.right;
+        CGFloat buttonLeft = (size.width/2 / 1.5 - safeEdges.right) * -1;
+        CGFloat buttonBottom = (size.height/2 / 2.2 - safeEdges.bottom) * -1;
+        CGFloat buttonTop = size.height/2 / 2.2 - safeEdges.top;
+
+        CGSize buttonSize = CGSizeMake(size.height / 7, size.height / 7);
+
         //resume button
-        playButton = [[SKButton alloc] initWithImageNamed:@"playButton" colorNormal:UI_COLOR_GREEN_NEXT_NORMAL colorSelected:UI_COLOR_GREEN_NEXT_SELECTED];
-        [playButton setPosition:CGPointMake(358, -211)];
+        playButton = [[SKButton alloc] initWithImageNamed: @"playButton"
+                                              colorNormal: UI_COLOR_GREEN_NEXT_NORMAL
+                                            colorSelected: UI_COLOR_GREEN_NEXT_SELECTED];
+        playButton.position = CGPointMake(buttonRight, buttonBottom);
         playButton.zPosition = 2;
-        playButton.size = CGSizeMake(96, 96);
-        [playButton setTouchUpInsideTarget:self action:@selector(resume)];
-        [self addChild:playButton];
+        playButton.size = buttonSize;
+        [playButton setTouchUpInsideTarget: self action: @selector(resume)];
+        [self addChild: playButton];
 
         //restart level button
-        restartButton = [[SKButton alloc] initWithImageNamed:@"restartButton" colorNormal:UI_COLOR_ORANGE_STAY_NORMAL colorSelected:UI_COLOR_ORANGE_STAY_SELECTED];
-        [restartButton setPosition:CGPointMake(-358, -211)];
+        restartButton = [[SKButton alloc] initWithImageNamed: @"restartButton"
+                                                 colorNormal: UI_COLOR_ORANGE_STAY_NORMAL
+                                               colorSelected: UI_COLOR_ORANGE_STAY_SELECTED];
+        restartButton.position = CGPointMake(buttonLeft, buttonBottom);
         restartButton.zPosition = 2;
-        restartButton.size = CGSizeMake(96, 96);
-        [restartButton setTouchUpInsideTarget:self action:@selector(restart)];
-        [self addChild:restartButton];
+        restartButton.size = buttonSize;
+        [restartButton setTouchUpInsideTarget: self action: @selector(restart)];
+        [self addChild: restartButton];
 
         //back to main menu button
-        toMainMenuButton = [[SKButton alloc] initWithImageNamed:@"cancelButton" colorNormal:UI_COLOR_RED_BACK_NORMAL colorSelected:UI_COLOR_RED_BACK_SELECTED];
-        [toMainMenuButton setPosition:CGPointMake(-358, 218)];
-        toMainMenuButton.size = CGSizeMake(75, 75);
-        [toMainMenuButton setTouchUpInsideTarget:self action:@selector(quit)];
+        toMainMenuButton = [[SKButton alloc] initWithImageNamed: @"cancelButton"
+                                                    colorNormal: UI_COLOR_RED_BACK_NORMAL
+                                                  colorSelected: UI_COLOR_RED_BACK_SELECTED];
+        toMainMenuButton.position = CGPointMake(buttonLeft, buttonTop);
+        toMainMenuButton.size = CGSizeMake(buttonSize.width / 1.6, buttonSize.height / 1.6);
+        [toMainMenuButton setTouchUpInsideTarget: self action: @selector(quit)];
         toMainMenuButton.zPosition = 2;
-        [self addChild:toMainMenuButton];
+        [self addChild: toMainMenuButton];
 
         //animation
-        [self setAlpha:0];
-        [self runAction:[SKAction scaleTo:2 duration:0]];
-        SKAction *animation = [SKAction group:@[[SKAction fadeInWithDuration:.2], [SKAction scaleTo:1 duration:.2]]];
+        [self setAlpha: 0];
+        [self runAction:[SKAction scaleTo: 2 duration: 0]];
+        SKAction *animation = [SKAction group: @[[SKAction fadeInWithDuration: .2], [SKAction scaleTo: 1 duration: .2]]];
         animation.timingMode = UIViewAnimationCurveEaseOut;
-        [self runAction:animation];
+        [self runAction: animation];
 
         //set up
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupControllers) name:NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(setupControllers)
+                                                     name: NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED
+                                                   object: nil];
         [self setupControllers];
     }
     return self;

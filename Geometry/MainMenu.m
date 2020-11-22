@@ -60,46 +60,51 @@
 -(instancetype)initWithSize:(CGSize)size{
     self = [super initWithSize:size];
     if (self) {
-//        AppDelegate *appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
         self.anchorPoint = CGPointMake(.5, .5);
         self.physicsWorld.gravity = CGVectorMake(0, 0);
 
         rootMainMenuNode = [SKNode node];
         rootMainMenuNode.alpha = 0;
-        [self.scene addChild:rootMainMenuNode];
+        [self.scene addChild: rootMainMenuNode];
 
-        SKLabelNode *gameTitleLabel = [SKLabelNode labelNodeWithText:@"Dimensional"];
+        SKLabelNode *gameTitleLabel = [SKLabelNode labelNodeWithText: @"Dimensional"];
         gameTitleLabel.fontName = @"Teko Light";
-        [rootMainMenuNode addChild:gameTitleLabel];
+        [rootMainMenuNode addChild: gameTitleLabel];
 
-        playButton = [[SKButton alloc] initWithImageNamed:@"mainMenu_playButton" colorNormal:UI_COLOR_GREEN_NEXT_NORMAL colorSelected:UI_COLOR_GREEN_NEXT_SELECTED];
+        playButton = [[SKButton alloc] initWithImageNamed: @"mainMenu_playButton"
+                                              colorNormal: UI_COLOR_GREEN_NEXT_NORMAL
+                                            colorSelected: UI_COLOR_GREEN_NEXT_SELECTED];
         playButton.zRotation = DEGREES_TO_RADIANS(0);
-        [playButton setTouchUpInsideTarget:self action:@selector(playButtonClick)];
+        [playButton setTouchUpInsideTarget: self action: @selector(playButtonClick)];
         playButton.zPosition = 2;
         playButton.size = CGSizeMake(200, 200);
         playButton.alpha = 0;
 
-        if (IS_IPAD){
+        settingsButton = [[SKButton alloc] initWithImageNamed: @"settingsButton"
+                                                  colorNormal: UI_COLOR_BLUE_NEUTRAL_NORMAL
+                                                colorSelected: UI_COLOR_BLUE_NEUTRAL_SELECTED];
+        settingsButton.size = CGSizeMake(62, 60);
+        settingsButton.zPosition = 2;
+        settingsButton.alpha = 0;
+
+        if (IS_IPAD) {
             gameTitleLabel.position = CGPointMake(0, 160);
             gameTitleLabel.fontSize = 180;
             playButton.position = CGPointMake(0, -25);
             playButton.size = CGSizeMake(200, 200);
-        }
-        else{
+        } else {
             gameTitleLabel.position = CGPointMake(0, 130);
             gameTitleLabel.fontSize = 150;
             playButton.position = CGPointMake(0, -60);
         }
 
-
-        settingsButton = [[SKButton alloc] initWithImageNamed:@"settingsButton" colorNormal:UI_COLOR_BLUE_NEUTRAL_NORMAL colorSelected:UI_COLOR_BLUE_NEUTRAL_SELECTED];
         settingsButton.position = CGPointMake(-450, -(size.height/2-62));
-        settingsButton.size = CGSizeMake(62, 60);
-        [settingsButton setTouchUpInsideTarget:self action:@selector(settingsButtonClick)];
-        settingsButton.zPosition = 2;
-        settingsButton.alpha = 0;
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupControllers) name:NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED object:nil];
+        [settingsButton setTouchUpInsideTarget: self action: @selector(settingsButtonClick)];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(setupControllers)
+                                                     name:NOTIFICATION_GAMECONTROLLER_STATUS_CHANGED
+                                                   object: nil];
         [self setupControllers];
     }
     return self;

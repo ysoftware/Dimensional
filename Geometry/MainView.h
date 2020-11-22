@@ -84,17 +84,19 @@
 @interface MainView : SKView
 @property (strong, nonatomic) GameViewController *vc;
 
+- (void) setup;
+
 /**YES = game launch -> menu scene.
 
  NO = menu scene <- level selector/level scene*/
--(void)switchToMainMenuSceneWithAnimationInForward:(BOOL)forward;
+-(void) switchToMainMenuSceneWithAnimationInForward:(BOOL)forward;
 
 ///Switch to Endless Run Scene
--(void)switchToLevelScene;
+-(void) switchToLevelScene;
 
--(void)presentPauseMenuWithDelegate:(id<PauseNodeDelegate>)delegate;
--(void)presentLevelPassedNodeWithScore:(NSInteger)score andDelegate:(id<LevelPassedNodeDelegate>)delegate;
+-(void) presentPauseMenuWithDelegate: (id<PauseNodeDelegate>) delegate;
+-(void) presentLevelPassedNodeWithScore: (NSInteger) score andDelegate: (id<LevelPassedNodeDelegate>) delegate;
 ///Position: center of the settings button
--(void)presentSettingsNodeWithPosition:(CGPoint)position andDelegate:(id<SettingsNodeDelegate>)delegate;
--(void)presentAlertNodeWithId:(NSString*)id title:(NSString*)title andDelegate:(id<AlertNodeDelegate>)delegate;
+-(void) presentSettingsNodeWithPosition:(CGPoint)position andDelegate:(id<SettingsNodeDelegate>)delegate;
+-(void) presentAlertNodeWithId: (NSString*) id title: (NSString*) title andDelegate: (id<AlertNodeDelegate>)delegate;
 @end

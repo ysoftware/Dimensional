@@ -17,6 +17,6 @@
 @end
 
 @interface PauseNode : SKSpriteNode
-
+-(instancetype)initWithEdgeInsets:(UIEdgeInsets)safeEdges;
 @property (nonatomic, weak) id delegate;
 @end
